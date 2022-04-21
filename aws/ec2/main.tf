@@ -10,7 +10,7 @@ terraform {
     organization = "kusama"
 
     workspaces {
-      name = "aws-ecs"
+      name = "aws-ec2"
     }
   }
 }
