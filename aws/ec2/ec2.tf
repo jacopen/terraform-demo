@@ -15,7 +15,7 @@ data "aws_ami" "ubuntu" {
 }
 
 resource "aws_network_interface" "web" {
-  subnet_id   = data.aws_subnet.public_0
+  subnet_id   = data.aws_subnet.public_0.id
   # private_ips = ["172.16.10.100"]
 
   tags = {
