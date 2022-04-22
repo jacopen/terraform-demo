@@ -42,7 +42,7 @@ resource "aws_ecs_task_definition" "service" {
   container_definitions = jsonencode([
     {
       name      = "first"
-      image     = "httpd:latest"
+      image     = "nginx:latest"
       essential = true
       portMappings = [
         {
