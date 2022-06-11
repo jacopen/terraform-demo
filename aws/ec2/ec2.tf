@@ -96,6 +96,8 @@ resource "aws_instance" "test" {
   #   device_index         = 0
   # }
 
+  user_data_replace_on_change = false
+
   tags = {
     Name = "test",
     Created = "terraform"
