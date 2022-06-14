@@ -15,6 +15,17 @@ data "aws_ami" "ubuntu" {
   owners = ["099720109477"] 
 }
 
+//// Windows AMI
+data "aws_ami" "latest_windows_2019" {
+  owners      = ["amazon"]
+  most_recent = true
+  filter {
+    name   = "name"
+    values = ["Windows_Server-2019-Japanese-Full-Base-*"]
+  }
+}
+
+
 //// NIC
 resource "aws_network_interface" "web" {
   subnet_id   = data.aws_subnet.public_0.id
@@ -40,7 +51,7 @@ resource "aws_instance" "web" {
 
 
 //// NIC
-resource "aws_network_interface" "web2" {
+resource "aws_network_interface" "windows" {
   subnet_id   = data.aws_subnet.public_0.id
 
   tags = {
@@ -48,58 +59,56 @@ resource "aws_network_interface" "web2" {
   }
 }
 
-resource "aws_instance" "web2" {
+resource "aws_instance" "windows" {
   ami           = data.aws_ami.ubuntu.id
-  instance_type = "t3.micro"
+  instance_type = "t3.medium"
 
   network_interface {
-    network_interface_id = aws_network_interface.web2.id
+    network_interface_id = aws_network_interface.windows.id
     device_index         = 0
   }
 
   tags = {
-    Name = "No2"
+    Name = "windows"
   }
 }
 
-resource "aws_network_interface" "instance" {
-  for_each = toset(["Web1", "Web2", "Web3"])
-  subnet_id   = data.aws_subnet.public_0.id
+# resource "aws_network_interface" "instance" {
+#   for_each = toset(["Web1", "Web2", "Web3"])
+#   subnet_id   = data.aws_subnet.public_0.id
 
-  tags = {
-    Name = "primary_network_interface"
-  }
-}
+#   tags = {
+#     Name = "primary_network_interface"
+#   }
+# }
 
-resource "aws_instance" "instance" {
-  for_each = toset(["Web1", "Web2", "Web3"])
-  ami           = data.aws_ami.ubuntu.id
-  instance_type = "t3.small"
+# resource "aws_instance" "instance" {
+#   for_each = toset(["Web1", "Web2", "Web3"])
+#   ami           = data.aws_ami.ubuntu.id
+#   instance_type = "t3.small"
 
-  network_interface {
-    network_interface_id = aws_network_interface.instance[each.key].id
-    device_index         = 0
-  }
+#   network_interface {
+#     network_interface_id = aws_network_interface.instance[each.key].id
+#     device_index         = 0
+#   }
 
-  tags = {
-    Name = each.key
-  }
-}
+#   tags = {
+#     Name = each.key
+#   }
+# }
+# resource "aws_instance" "test" {
+#   ami           = "ami-088da9557aae42f39"
+#   instance_type = "t3.micro"
 
+#   # network_interface {
+#   #   network_interface_id = aws_network_interface.web.id
+#   #   device_index         = 0
+#   # }
 
-resource "aws_instance" "test" {
-  ami           = "ami-088da9557aae42f39"
-  instance_type = "t3.micro"
+#   user_data_replace_on_change = false
 
-  # network_interface {
-  #   network_interface_id = aws_network_interface.web.id
-  #   device_index         = 0
-  # }
-
-  user_data_replace_on_change = false
-
-  tags = {
-    Name = "test",
-    Created = "terraform"
-  }
-}
+#   tags = {
+#     Name = "test",
+#     Created = "terraform"
+#   }
+# }
