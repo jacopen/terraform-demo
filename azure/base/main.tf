@@ -25,7 +25,7 @@ resource "azurerm_resource_group" "main" {
 }
 
 
-resource "azurerm_resource_group" "main" {
+resource "azurerm_resource_group" "test" {
   name     = "kazutokusama2"
   location = "Japan East"
 }
