@@ -24,12 +24,6 @@ resource "azurerm_resource_group" "main" {
   location = "Japan East"
 }
 
-
-resource "azurerm_resource_group" "test" {
-  name     = "kazutokusama2"
-  location = "Japan East"
-}
-
 module "network" {
   source              = "Azure/network/azurerm"
   resource_group_name = azurerm_resource_group.main.name
