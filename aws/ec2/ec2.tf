@@ -1,34 +1,6 @@
-//// Ubuntu AMI
-data "aws_ami" "ubuntu" {
-  most_recent = true
-
-  filter {
-    name   = "name"
-    values = ["ubuntu/images/hvm-ssd/ubuntu-focal-20.04-amd64-server-*"]
-  }
-
-  filter {
-    name   = "virtualization-type"
-    values = ["hvm"]
-  }
-
-  owners = ["099720109477"] 
-}
-
-//// Windows AMI
-data "aws_ami" "latest_windows_2019" {
-  owners      = ["amazon"]
-  most_recent = true
-  filter {
-    name   = "name"
-    values = ["Windows_Server-2019-Japanese-Full-Base-*"]
-  }
-}
-
-
 //// NIC
 resource "aws_network_interface" "web" {
-  subnet_id   = data.aws_subnet.public_0.id
+  subnet_id = data.aws_subnet.public_0.id
 
   tags = {
     Name = "primary_network_interface"
@@ -52,7 +24,7 @@ resource "aws_instance" "web" {
 
 //// NIC
 resource "aws_network_interface" "windows" {
-  subnet_id   = data.aws_subnet.public_0.id
+  subnet_id = data.aws_subnet.public_0.id
 
   tags = {
     Name = "primary_network_interface"
