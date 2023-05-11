@@ -6,7 +6,7 @@ terraform {
     }
   }
   cloud {
-    organization = "kusama2-training"
+    organization = "kusama"
 
     workspaces {
       name = "aws-application"
