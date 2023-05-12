@@ -120,3 +120,28 @@ resource "aws_instance" "test" {
   }
 }
 
+
+resource "aws_network_interface" "web2" {
+  subnet_id = data.aws_subnet.public_0.id
+
+  tags = {
+    Name = "primary_network_interface"
+    Division = var.division_name
+  }
+}
+
+resource "aws_instance" "web2" {
+  ami           = data.aws_ami.ubuntu.id
+  instance_type = "t3.medium"
+
+  network_interface {
+    network_interface_id = aws_network_interface.web2.id
+    device_index         = 0
+  }
+
+  tags = {
+    Name = "WebServer-${var.division_name}"
+    Division = var.division_name
+  }
+}
+
