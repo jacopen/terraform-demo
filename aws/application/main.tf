@@ -132,7 +132,7 @@ resource "aws_network_interface" "web2" {
 
 resource "aws_instance" "web2" {
   ami           = data.aws_ami.ubuntu.id
-  instance_type = "t3.medium"
+  instance_type = "t3.small"
 
   network_interface {
     network_interface_id = aws_network_interface.web2.id
